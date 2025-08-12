@@ -98,6 +98,40 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ error: error.message }));
     }
   }
+
+  ////////////////UPDATE(PUT)//////////////////////////
+  if (path === "/update" && req.method === "PUT") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let updateData = await userCollections.updateOne(
+          { _id: new ObjectId(objectData._id) },
+          {
+            $set: {
+              name: objectData.name,
+              email: objectData.email,
+              phoneNo: objectData.phoneNo,
+              password: objectData.password,
+            },
+          }
+        );
+        if (updateData) {
+          res.writeHead(200, { "content-type": "text/plain" });
+          console.log("updated successfully");
+          res.end("updated successfully");
+        } else {
+          console.log(" not updated ");
+        }
+      });
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+  }
 });
 
 client
