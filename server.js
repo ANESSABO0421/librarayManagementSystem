@@ -33,6 +33,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/adminProfile") {
     res.writeHead(200, { "content-type": "text/html" });
     res.end(fs.readFileSync("./adminProfile.html"));
+  } else if (path === "/editAdmin") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./editAdmin.html"));
   }
 
   //api

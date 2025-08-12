@@ -6,7 +6,56 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="bg-[#10172a] text-white">
-    sh
+  <body
+    class="bg-[#10172a] text-white flex items-center justify-center h-[100vh]"
+  >
+    <div id="main"></div>
   </body>
+  <script>
+    // getting the user
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get("id");
+    // console.log(id);
+
+    async function loadData() {
+      const response = await fetch("http://localhost:5000/getUser");
+      const data = await response.json();
+      //   console.log(data);
+      const user = data.find((u) => u._id == id);
+      //   user present
+      if (user) {
+        document.getElementById("main").innerHTML = `
+        <div class="bg-white text-gray-800 rounded-2xl shadow-2xl p-8 max-w-lg mx-auto text-center transform hover:scale-105 transition duration-300">
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4">${user.name}</h2>
+
+        <div class="space-y-3 text-left text-lg">
+            <p><span class="font-semibold">Email:</span> ${user.email}</p>
+            <p><span class="font-semibold">Password:</span> ${user.password}</p>
+            <p><span class="font-semibold">Phone:</span> ${user.phoneNumber}</p>
+            <p><span class="font-semibold">Type:</span> ${user.type}</p>
+        </div>
+
+    
+    <div class="mt-8 flex justify-center gap-5">
+        <button onclick="editUser('${user._id}')" class="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-xl shadow-md text-lg transition">
+        Edit
+        </button>
+        <button onclick="logoutUser()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl shadow-md text-lg transition">
+        Logout
+        </button>
+  </div>
+</div>
+        `;
+      }
+      console.log(user);
+    }
+    loadData();
+    function logoutUser() {
+      localStorage.clear();
+      window.location.href = "/";
+    }
+    function editUser(id) {
+      window.location.href = `/editAdmin?id=${id}`;
+    }
+  </script>
 </html>
