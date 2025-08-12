@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const url = require("url");
 const http = require("http");
 const client = new MongoClient("mongodb://127.0.0.1:27017/");
@@ -79,6 +79,20 @@ const server = http.createServer(async (req, res) => {
     } catch (error) {
       res.writeHead(500, { "content-type": "text/plain" });
       res.end("failed to register");
+    }
+  }
+  //////////////GET USER/////////////////////////////
+  if (path === "/getUser" && req.method === "GET") {
+    try {
+      let getuser = await userCollections.find().toArray();
+      let stringData = JSON.stringify(getuser);
+      if (getuser) {
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end(stringData);
+      }
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end(JSON.stringify({ error: error.message }));
     }
   }
 });
