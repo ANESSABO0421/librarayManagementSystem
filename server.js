@@ -1,0 +1,96 @@
+const fs = require("fs");
+const { MongoClient } = require("mongodb");
+const url = require("url");
+const http = require("http");
+const client = new MongoClient("mongodb://127.0.0.1:27017/");
+const port = 5000;
+
+const server = http.createServer(async (req, res) => {
+  const db = client.db("LibraryManagement");
+  const userCollections = db.collection("userCollection");
+  const bookCollection = db.collection("bookCollection");
+  const path = url.parse(req.url).pathname;
+
+  //routes && jsfile
+  if (path === "/") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./Login.html"));
+  } else if (path === "/Signup") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./Signup.html"));
+  } else if (path === "/Signup.js") {
+    res.writeHead(200, { "content-type": "text/js" });
+    res.end(fs.readFileSync("./Signup.js"));
+  } else if (path === "/userHome") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./userHome.html"));
+  } else if (path === "/handleLogin.js") {
+    res.writeHead(200, { "content-type": "text/js" });
+    res.end(fs.readFileSync("./handleLogin.js"));
+  } else if (path === "/adminHome") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./adminHome.html"));
+  } else if (path === "/adminProfile") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./adminProfile.html"));
+  }
+
+  //api
+  //////////////LOGIN////////////////////////////
+  if (path === "/login" && req.method === "POST") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        const { email, password } = objectData;
+        let login = await userCollections.findOne({ email, password });
+        if (login) {
+          res.writeHead(200, { "content-type": "text/plain" });
+          res.end(JSON.stringify(login));
+        }
+      });
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end(error);
+    }
+  }
+  ///////////////// SignUp/////////////////////////////
+  if (path === "/signup" && req.method === "POST") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let insertData = await userCollections.insertOne(objectData);
+
+        if (insertData) {
+          console.log("you have been successfully registered");
+          res.writeHead(200, { "content-type": "text/plain" });
+          res.end("you have been registered successfully");
+        } else {
+          console.log("Failed to register");
+        }
+      });
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end("failed to register");
+    }
+  }
+});
+
+client
+  .connect()
+  .then(() => {
+    console.log("mongoDB connected");
+    server.listen(port, () => {
+      console.log(`server created at http://localhost:${port}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });

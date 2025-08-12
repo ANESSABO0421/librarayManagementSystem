@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="flex items-center justify-center h-[100vh] bg-[#10172a]">
+    <form
+      class="flex flex-col items-center justify-center bg-white shadow-2xl h-[400px] w-[400px] rounded-lg gap-5"
+      id="LoginForm"
+    >
+      <h1 class="text-[18px] text-center font-bold">
+        Welcome to Library Management System
+      </h1>
+      <div class="flex">
+        <input
+          type="email"
+          id="email"
+          placeholder="enter your email"
+          class="border p-2 rounded flex w-[300px]"
+        />
+      </div>
+      <div class="flex">
+        <input
+          type="password"
+          id="password"
+          placeholder="enter your password"
+          class="border p-2 rounded flex w-[300px]"
+        />
+      </div>
+      <button
+        class="bg-yellow-500 h-[50px] text-white w-[300px] rounded hover:bg-yellow-600 duration-200 ease-in"
+      >
+        Sign up
+      </button>
+      <div class="flex gap-1">
+        Don't have an account?<a href="/Signup" class="text-blue-500">Signup</a>
+      </div>
+    </form>
+    <script src="./handleLogin.js"></script>
+  </body>
+</html>

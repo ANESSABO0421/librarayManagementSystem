@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="h-[100vh] bg-[#10172a]">
+    <nav
+      class="flex fixed items-center justify-between bg-white shadow-md w-full h-[70px]"
+    >
+      <div class="flex p-3 h-full items-center justify-center">
+        <h1 class="text-2xl font-bold">Library Management System</h1>
+      </div>
+      <div class="flex items-center justify-center p-3 gap-2">
+        <span class="text-2xl">Welcome,</span>
+        <h1 id="userdisplay" class="text-2xl font-bold"></h1>
+        <button
+          onclick="toggleDropdown()"
+          class="flex items-center justify-center bg-red-500 text-white h-[30px] w-[30px] rounded cursor-pointer"
+        >
+          ▼
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden flex flex-col absolute top-[31px] -right-7 m-10 w-[150px] bg-white rounded shadow-lg z-50"
+        >
+          <ul
+            class="bg-white top-5 duration-300 transition-all ease-out duration-300 ease-out"
+          >
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+              <button onclick="goToProfile()">profile</button>
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Add Book</li>
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+              Borrowed Books
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </body>
+  <script>
+    let value = localStorage.getItem("name:");
+    let userId = localStorage.getItem("userId");
+    document.getElementById("userdisplay").textContent = value;
+    const menu = document.getElementById("dropdownMenu");
+
+    // drop down
+    function toggleDropdown() {
+      menu.classList.toggle("hidden");
+    }
+
+    function goToProfile() {
+      if (userId) {
+        window.location.href = `/adminProfile?id=${userId}`;
+      } else {
+        window.alert("no user has been found");
+      }
+    }
+  </script>
+</html>
