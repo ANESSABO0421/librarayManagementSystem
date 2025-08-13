@@ -43,6 +43,15 @@
         </div>
       </div>
     </nav>
+
+    <!-- book data display -->
+    <div class="main-display h-screen pt-[10vh]">
+      <div
+        id="booksDisplay"
+        class="flex items-center justify-center h-[90vh] text-white gap-5"
+      >
+      </div>
+    </div>
   </body>
   <script>
     let value = localStorage.getItem("name:");
@@ -63,9 +72,30 @@
       }
     }
 
-
-
     // display book
-    
+    async function fetchData() {
+      try {
+        const response = await fetch("http://localhost:5000/bookget");
+        const data = await response.json();
+        console.log(data);
+        let str = "";
+        {
+          data.map((b) => {
+            str += `
+            <div class="bg-white rounded-xl shadow-md h-[150px] w-[250px]  p-4 border border-gray-200 mb-4">
+              <h2 class="text-lg font-bold text-gray-800">${b.title}</h2>
+              <p class="text-sm text-gray-600">Book ID: ${b.bookId}</p>
+              <p class="text-sm text-gray-600">Author: ${b.author}</p>
+              <p class="text-sm text-gray-600">Genre: ${b.genre}</p>
+              <p>${b.status}</p>
+            </div>
+          `;
+          });
+        }
+
+        document.getElementById("booksDisplay").innerHTML = str;
+      } catch (error) {}
+    }
+    fetchData();
   </script>
 </html>

@@ -162,7 +162,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
   ///////////GET BOOK/////////////////////
-  if (path === "/getBook" && req.method === "GET") {
+  if (path === "/bookget" && req.method === "GET") {
     try {
       const book = await bookCollection.find().toArray();
       const stringData = JSON.stringify(book);
