@@ -39,6 +39,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/addbook") {
     res.writeHead(200, { "content-type": "text/html" });
     res.end(fs.readFileSync("./addbook.html"));
+  } else if (path === "/handleBook.js") {
+    res.writeHead(200, { "content-type": "text/js" });
+    res.end(fs.readFileSync("./handleBook.js"));
   }
 
   //api
@@ -133,6 +136,29 @@ const server = http.createServer(async (req, res) => {
     } catch (error) {
       res.writeHead(500, { "content-type": "text/plain" });
       res.end(JSON.stringify({ error: error.message }));
+    }
+  }
+
+  ////////////ADD BOOK///////////////////////////////////
+  if (path === "/addbooks" && req.method === "POST") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let addBook = await bookCollection.insertOne(objectData);
+
+        if (addBook) {
+          // window.alert("book has been successfully added");
+          res.writeHead(200, { "content-type": "text/plain" });
+          res.end("book added successfully");
+        }
+      });
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end(error);
     }
   }
 });
