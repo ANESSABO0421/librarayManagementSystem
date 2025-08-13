@@ -161,6 +161,19 @@ const server = http.createServer(async (req, res) => {
       res.end(error);
     }
   }
+  ///////////GET BOOK/////////////////////
+  if (path === "/getBook" && req.method === "GET") {
+    try {
+      const book = await bookCollection.find().toArray();
+      const stringData = JSON.stringify(book);
+      if (stringData) {
+        res.writeHead(200, { "content-type": "text/plain" });
+        res.end(stringData);
+      }
+    } catch (error) {
+      res.writeHead(500, JSON.stringify({ error: error.message }));
+    }
+  }
 });
 
 client
