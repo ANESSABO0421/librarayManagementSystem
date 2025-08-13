@@ -108,7 +108,9 @@
             });
             if (editData) {
               alert("data is updated");
+              localStorage.setItem('name:',`${name}`)
               window.location.href = "/adminHome";
+              
             } else {
               alert("data is not updated");
             }

@@ -148,7 +148,7 @@ const server = http.createServer(async (req, res) => {
       });
       req.on("end", async () => {
         let objectData = JSON.parse(body);
-        let addBook = await bookCollection.insertOne(objectData);
+        let addBook = await bookCollection.insertMany(objectData);
 
         if (addBook) {
           // window.alert("book has been successfully added");
