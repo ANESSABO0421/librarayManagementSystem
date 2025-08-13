@@ -9,7 +9,7 @@
   <body class="flex items-center justify-center h-[100vh] bg-[#10172a]">
     <form
       class="flex flex-col items-center justify-center bg-white shadow-2xl h-[500px] w-[500px] rounded-lg gap-5"
-      id="SignupForm"
+      id="EditForm"
     >
       <h1 class="text-3xl font-bold">Edit Admin</h1>
       <div class="flex">
@@ -45,12 +45,13 @@
         />
       </div>
       <div class="flex">
-        <select id="type" class="border w-[300px] rounded-md p-2 disabled">
+        <select id="type" class="border w-[300px] rounded-md p-2" disabled>
           <option value="" disabled selected>Who you are</option>
           <option value="User">User</option>
           <option value="Admin">Admin</option>
         </select>
       </div>
+
       <button
         class="bg-yellow-500 h-[50px] text-white w-[300px] rounded hover:bg-yellow-600 duration-200 ease-in"
       >
@@ -58,7 +59,63 @@
       </button>
     </form>
     <script>
-      
+      const url = new URL(window.location.href);
+      const id = url.searchParams.get("id");
+      // console.log(id)
+
+      // user found and placing all data
+      async function loadData() {
+        const response = await fetch("http://localhost:5000/getUser");
+        const data = await response.json();
+        // console.log(data);
+
+        const user = data.find((u) => u._id == id);
+        console.log(user);
+
+        if (user) {
+          document.getElementById("name").value = user.name;
+          document.getElementById("email").value = user.email;
+          document.getElementById("phoneNo").value = user.phoneNumber;
+          document.getElementById("password").value = user.password;
+          document.getElementById("type").value = user.type;
+        }
+      }
+      loadData();
+
+      // edit data
+      document
+        .getElementById("EditForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const phoneNumber = document.getElementById("phoneNo").value;
+          const password = document.getElementById("password").value;
+
+          try {
+            let editData = await fetch("http://localhost:5000/update", {
+              method: "PUT",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                _id: id,
+                name,
+                email,
+                phoneNumber,
+                password,
+              }),
+            });
+            if (editData) {
+              alert("data is updated");
+              window.location.href = "/adminHome";
+            } else {
+              alert("data is not updated");
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        });
     </script>
   </body>
 </html>
