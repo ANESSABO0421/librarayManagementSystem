@@ -39,9 +39,11 @@
             >
 
             <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
-            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-              Borrowed Books
-            </li>
+            <a href="/manageBooks">
+              <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                Manage Books
+              </li>
+            </a>
           </ul>
         </div>
       </div>
@@ -50,7 +52,7 @@
     <div
       class="main-display h-screen pt-[20vh] flex items-center justify-center"
     >
-      <div id="booksDisplay" class="grid grid-cols-5 gap-5"></div>
+      <div id="booksDisplay" class="grid grid-cols-6 gap-5"></div>
     </div>
   </body>
   <script>
@@ -82,16 +84,19 @@
         {
           data.map((b) => {
             str += `
-            <div class="bg-white rounded-xl shadow-md h-[250px] w-[250px]flex flex-col  gap-10 p-4 border border-gray-200 mb-4 hover:-translate-y-2 duration-300">
-              <h2 class="text-lg font-bold text-gray-800">${b.title}</h2>
+            <div class="bg-white rounded-xl shadow-md h-[200px] w-[250px]flex flex-col  gap-10 p-4 border border-gray-200 mb-4 hover:-translate-y-2 duration-300">
+              <h2 class="text-lg font-bold text-gray-800">${b.bookTitle}</h2>
               <p class="text-sm text-gray-600">Book ID: ${b.bookId}</p>
               <p class="text-sm text-gray-600">Author: ${b.author}</p>
               <p class="text-sm text-gray-600">Genre: ${b.genre}</p>
-              <p class="rounded-full p-2 bg-blue-300 text-blue-600 w-[100px] flex items-center justify-center mt-5">${b.status}</p>
-              <div class="flex gap-5">
-                <button class="bg-yellow-300 text-yellow-600 mt-5 rounded-full p-2 w-[100px] cursor-pointer hover:bg-yellow-100 duration-200 ease-out">Edit</button>
-                <button class="bg-red-300 text-red-500 mt-5 rounded-full p-2 w-[100px] cursor-pointer hover:bg-red-100">Delete</button>
-              </div>
+              <p class="rounded-full p-2 ${
+                b.status === "Borrowed"
+                  ? "text-red-600 bg-red-300"
+                  : "text-green-600 bg-green-300"
+              }  w-[100px] flex items-center justify-center mt-5">${
+              b.status
+            }</p>
+              
             </div>
           `;
           });
@@ -103,3 +108,9 @@
     fetchData();
   </script>
 </html>
+
+<!-- buttons -->
+<!-- <div class="flex gap-5">
+                <button class="bg-yellow-300 text-yellow-600 mt-5 rounded-full p-2 w-[100px] cursor-pointer hover:bg-yellow-100 duration-200 ease-out">Edit</button>
+                <button class="bg-red-300 text-red-500 mt-5 rounded-full p-2 w-[100px] cursor-pointer hover:bg-red-100">Delete</button>
+              </div> -->

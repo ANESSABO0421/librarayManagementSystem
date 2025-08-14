@@ -27,6 +27,8 @@ document
         localStorage.setItem("userId", data._id);
 
         window.alert("you have been successfully loggedin");
+      } else if (isFound.status == 500) {
+        window.alert("your email or password is invalid");
       } else {
         window.alert("something wrong!!!");
       }
