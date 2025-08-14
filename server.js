@@ -123,7 +123,7 @@ const server = http.createServer(async (req, res) => {
             $set: {
               name: objectData.name,
               email: objectData.email,
-              phoneNo: objectData.phoneNo,
+              phoneNumber: objectData.phoneNumber,
               password: objectData.password,
             },
           }

@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="h-[100vh] bg-[#E0FBFC] text-[1B1F3B]">
+    <!-- navvvvvvv -->
     <nav
       class="flex fixed items-center justify-between bg-[#3D5A80] shadow-md w-full h-[70px] z-1"
     >
@@ -32,12 +33,6 @@
             <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
               <button onclick="goToProfile()">profile</button>
             </li>
-            <a href="/addbook">
-              <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                Add Book
-              </li></a
-            >
-            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
             <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
               Borrowed Books By you
             </li>
@@ -45,9 +40,16 @@
         </div>
       </div>
     </nav>
+    <!-- books display -->
+    <div
+      class="main-display h-screen pt-[20vh] flex items-center justify-center"
+    >
+      <div id="booksDisplay" class="grid grid-cols-5 gap-5"></div>
+    </div>
+
     <script>
       const user = localStorage.getItem("name:");
-      const userId=localStorage.getItem("userId")
+      const userId = localStorage.getItem("userId");
       document.getElementById("userdisplay").textContent = user;
 
       function hideDropDown() {
@@ -62,6 +64,28 @@
           window.alert("no user has been found");
         }
       }
+
+      async function displayBooks() {
+        const response = await fetch("http://localhost:5000/bookget");
+        const data = await response.json();
+        console.log(data);
+        let str = "";
+        {
+          data.map((b) => {
+            str += `
+            <div class="bg-white rounded-xl shadow-md h-[200px] w-[250px]flex flex-col  gap-10 p-4 border border-gray-200 mb-4 hover:-translate-y-2 duration-300">
+              <h2 class="text-lg font-bold text-gray-800">${b.title}</h2>
+              <p class="text-sm text-gray-600">Book ID: ${b.bookId}</p>
+              <p class="text-sm text-gray-600">Author: ${b.author}</p>
+              <p class="text-sm text-gray-600">Genre: ${b.genre}</p>
+              <p class="rounded-full p-2 bg-blue-300 text-blue-600 w-[100px] flex items-center justify-center mt-5">${b.status}</p>
+            </div>
+          `;
+          });
+        }
+        document.getElementById("booksDisplay").innerHTML = str;
+      }
+      displayBooks();
     </script>
   </body>
 </html>

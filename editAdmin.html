@@ -31,7 +31,7 @@
       <div class="flex">
         <input
           type="text"
-          id="phoneNo"
+          id="phoneNumber"
           placeholder="enter your Phone Number"
           class="border p-2 rounded flex w-[300px]"
         />
@@ -75,7 +75,7 @@
         if (user) {
           document.getElementById("name").value = user.name;
           document.getElementById("email").value = user.email;
-          document.getElementById("phoneNo").value = user.phoneNumber;
+          document.getElementById("phoneNumber").value = user.phoneNumber;
           document.getElementById("password").value = user.password;
           document.getElementById("type").value = user.type;
         }
@@ -89,7 +89,7 @@
           e.preventDefault();
           const name = document.getElementById("name").value;
           const email = document.getElementById("email").value;
-          const phoneNumber = document.getElementById("phoneNo").value;
+          const phoneNumber = document.getElementById("phoneNumber").value;
           const password = document.getElementById("password").value;
 
           try {
