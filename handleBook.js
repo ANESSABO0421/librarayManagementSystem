@@ -7,6 +7,7 @@ document
     const author = document.getElementById("author").value;
     const genre = document.getElementById("genre").value;
     const status = document.getElementById("status").value;
+    const userId = localStorage.getItem("userId");
 
     console.log(bookId, bookTitle, author, genre, status);
     try {
@@ -15,7 +16,14 @@ document
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ bookId, bookTitle, author, genre, status }),
+        body: JSON.stringify({
+          bookId,
+          bookTitle,
+          author,
+          genre,
+          status,
+          createdBy: userId,
+        }),
       });
       if (addBook) {
         window.alert("book has been successfully added");

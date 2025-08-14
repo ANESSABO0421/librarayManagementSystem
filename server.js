@@ -42,6 +42,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/handleBook.js") {
     res.writeHead(200, { "content-type": "text/js" });
     res.end(fs.readFileSync("./handleBook.js"));
+  } else if (path === "/viewProfile") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./viewProfile.html"));
   }
 
   //api
@@ -148,7 +151,7 @@ const server = http.createServer(async (req, res) => {
       });
       req.on("end", async () => {
         let objectData = JSON.parse(body);
-        let addBook = await bookCollection.insertMany(objectData);
+        let addBook = await bookCollection.insertOne(objectData);
 
         if (addBook) {
           // window.alert("book has been successfully added");

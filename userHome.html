@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>userHome</h1>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="h-[100vh] bg-[#E0FBFC] text-[1B1F3B]">
+    <nav
+      class="flex fixed items-center justify-between bg-[#3D5A80] shadow-md w-full h-[70px] z-1"
+    >
+      <div class="flex p-3 h-full items-center justify-center">
+        <h1 class="text-2xl font-bold">Library Management System</h1>
+      </div>
+      <div class="flex items-center justify-center p-3 gap-2">
+        <span class="text-2xl">Welcome,</span>
+        <h1 id="userdisplay" class="text-2xl font-bold"></h1>
+        <button
+          onclick="hideDropDown()"
+          class="flex items-center justify-center bg-red-500 text-white h-[30px] w-[30px] rounded cursor-pointer"
+        >
+          ▼
+        </button>
+        <div
+          id="dropdownMenu"
+          class="hidden flex flex-col absolute top-[31px] -right-7 m-10 w-[180px] bg-white rounded shadow-lg z-50"
+        >
+          <ul
+            class="bg-white top-5 duration-300 transition-all ease-out duration-300 ease-out"
+          >
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+              <button onclick="goToProfile()">profile</button>
+            </li>
+            <a href="/addbook">
+              <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                Add Book
+              </li></a
+            >
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
+            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+              Borrowed Books By you
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <script>
+      const user = localStorage.getItem("name:");
+      const userId=localStorage.getItem("userId")
+      document.getElementById("userdisplay").textContent = user;
+
+      function hideDropDown() {
+        document.getElementById("dropdownMenu").classList.toggle("hidden");
+      }
+
+      //   profile view
+      function goToProfile() {
+        if (userId) {
+          window.location.href = `/viewProfile?id=${userId}`;
+        } else {
+          window.alert("no user has been found");
+        }
+      }
+    </script>
+  </body>
 </html>
