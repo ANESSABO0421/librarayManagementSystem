@@ -45,12 +45,18 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/viewProfile") {
     res.writeHead(200, { "content-type": "text/html" });
     res.end(fs.readFileSync("./viewProfile.html"));
-  }else if(path==="/editUser"){
-    res.writeHead(200,{"content-type":"text/html"})
-    res.end(fs.readFileSync("./editUser.html"))
-  }else if(path==="/manageBooks"){
-    res.writeHead(200,{"content-type":"text/html"})
-    res.end(fs.readFileSync("./manageBooks.html"))
+  } else if (path === "/editUser") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./editUser.html"));
+  } else if (path === "/manageBooks") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./manageBooks.html"));
+  } else if (path === "/EditBook") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./EditBook.html"));
+  } else if (path === "/handleEditBook.js") {
+    res.writeHead(200, { "content-type": "text/js" });
+    res.end(fs.readFileSync("./handleEditBook.js"));
   }
 
   //api
@@ -114,7 +120,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  ////////////////UPDATE(PUT)//////////////////////////
+  ////////////////UPDATE USER(PUT)//////////////////////////
   if (path === "/update" && req.method === "PUT") {
     try {
       let body = "";
@@ -181,6 +187,38 @@ const server = http.createServer(async (req, res) => {
       }
     } catch (error) {
       res.writeHead(500, JSON.stringify({ error: error.message }));
+    }
+  }
+  ///////////////////// UPDATE BOOK//////////////////////
+  if (path === "/updatebook" && req.method === "PUT") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let updateBook = await bookCollection.updateOne(
+          { _id: new ObjectId(objectData._id) },
+          {
+            $set: {
+              //JUST LIKE THE DATABASE WE POST . THE STRINGIFIED KEY
+              bookId: objectData.bookId,
+              bookTitle: objectData.bookTitle,
+              author: objectData.author,
+              genre: objectData.genre,
+              status: objectData.status,
+            },
+          }
+        );
+        if(updateBook){
+          res.writeHead(200,{"content-type":"application/json"})
+          res.end("updated successfully")
+        }
+      });
+    } catch (error) {
+      res.writeHead(500,{"content-type":"application/json"})
+      res.end(JSON.stringify({error:error.message}))
     }
   }
 });

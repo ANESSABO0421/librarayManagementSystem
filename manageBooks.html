@@ -26,9 +26,10 @@
       let str = "";
       user.map((display) => {
         str += `
-        
     <div class="flex flex-col gap-4 bg-white  w-[900px] rounded-lg p-6 hover:-translate-y-2  duration-300 ease-out">
-        <div class="flex items-center justify-center text-black text-3xl font-bold">${display.bookTitle}</div>
+        <div class="flex items-center justify-center text-black text-3xl font-bold">${
+          display.bookTitle
+        }</div>
     <p class="text-gray-700"><strong>Book ID:</strong> ${display.bookId}</p>    
     <p class="text-gray-700"><strong>Title:</strong> ${display.bookTitle}</p> 
     <p class="text-gray-700"><strong>Author:</strong> ${
@@ -48,14 +49,23 @@
             ${display.status}
         </span>
     </p>         
+    <div class="flex gap-5">
+        <button class="bg-yellow-300 flex-1 text-yellow-600 mt-5 rounded p-2  cursor-pointer hover:bg-yellow-100 duration-200 ease-out" onclick="goToEdit('${
+          display._id
+        }')">Edit</button>
+        <button class="bg-red-300 text-red-500 mt-5 flex-1 rounded p-2  cursor-pointer hover:bg-red-100">Delete</button>
+    </div>
 </div>
-
-
             `;
       });
       document.getElementById("main").innerHTML = str;
     }
     loadData();
     console.log(userId);
+
+    // goto edit page
+    function goToEdit(id) {
+      window.location.href = `/EditBook?id=${id}`;
+    }
   </script>
 </html>

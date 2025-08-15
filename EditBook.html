@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-[#10172a] flex items-center justify-center h-screen text-gray-800">
+    <form
+      class="bg-white flex flex-col items-center justify-center rounded h-auto p-10 w-[400px] gap-5 text-black"
+      id="editBookForm"
+    >
+      <h1 class="font-bold text-3xl">Edit Book</h1>
+      <input
+        type="text"
+        id="bookId"
+        class="border-2 h-[40px] w-[300px] p-2 rounded"
+        placeholder="enter the bookId"
+      />
+      <input
+        type="text"
+        id="bookTitle"
+        class="border-2 h-[40px] w-[300px] p-2 rounded"
+        placeholder="enter the book title"
+      />
+      <input
+        type="text"
+        id="author"
+        class="border-2 h-[40px] w-[300px] p-2 rounded"
+        placeholder="enter the author"
+      />
+      <input
+        type="text"
+        id="genre"
+        class="border-2 h-[40px] w-[300px] p-2 rounded"
+        placeholder="enter the genre"
+      />
+      <select
+        id="status"
+        class="h-[40px] w-[300px] border-2 rounded p-2"
+        required
+      >
+        <option value="Available" class="text-black">Available</option>
+        <option value="Borrowed" class="text-black">Borrowed</option>
+      </select>
+      <button class="bg-[#10172a] text-white hover:-translate-y-2 duration-300 w-[300px] h-[40px] rounded font-semibold hover:shadow-xl/50">Edit</button>
+    </form>
+    <script src="handleEditBook.js"></script>
+  </body>
+</html>
