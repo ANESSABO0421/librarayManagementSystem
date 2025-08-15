@@ -211,14 +211,37 @@ const server = http.createServer(async (req, res) => {
             },
           }
         );
-        if(updateBook){
-          res.writeHead(200,{"content-type":"application/json"})
-          res.end("updated successfully")
+        if (updateBook) {
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end("updated successfully");
         }
       });
     } catch (error) {
-      res.writeHead(500,{"content-type":"application/json"})
-      res.end(JSON.stringify({error:error.message}))
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+  }
+  //////////////delete data/////////////////////////////
+  if (path === "/deleteBook" && req.method === "DELETE") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let deleteData = await bookCollection.deleteOne({
+          _id: new ObjectId(objectData._id),
+        });
+
+        if (deleteData) {
+          res.writeHead(200, { "content-type": "text/plain" });
+          res.end("data is deleted uccessfully");
+        }
+      });
+    } catch (error) {
+      res.writeHead(500, { "content-type": "text/plain" });
+      res.end(JSON.stringify({ error: error.message }));
     }
   }
 });
