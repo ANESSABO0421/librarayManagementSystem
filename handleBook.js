@@ -8,6 +8,18 @@ document
     const genre = document.getElementById("genre").value;
     const status = document.getElementById("status").value;
     const userId = localStorage.getItem("userId");
+    const file=document.getElementById("images").files[0]
+    
+    // convert image to base64
+    const toBase64=(file)=>
+      new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.readAsDataURL(file)
+        reader.onload=()=>resolve(reader.result)
+        reader.onerror=reject
+      })
+
+      let Base64File=file?await toBase64(file):""
 
     console.log(bookId, bookTitle, author, genre, status);
     try {
@@ -23,6 +35,7 @@ document
           genre,
           status,
           createdBy: userId,
+          image:Base64File
         }),
       });
       if (addBook) {

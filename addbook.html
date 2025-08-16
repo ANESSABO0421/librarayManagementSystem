@@ -11,7 +11,7 @@
   >
     <form
       id="addBookForm"
-      class="h-[500px] w-[500px] bg-red-500 flex rounded-2xl items-center justify-center flex flex-col gap-5"
+      class="h-auto w-[500px] bg-red-500 flex rounded-2xl items-center justify-center flex flex-col gap-5 p-5"
     >
       <h1 class="text-3xl">Add book</h1>
       <input
@@ -46,6 +46,12 @@
         <option value="Available" class="text-black">Available</option>
         <option value="Borrowed" class="text-black">Borrowed</option>
       </select>
+      <input
+        type="file"
+        id="images"
+        class="h-[50px] w-[400px] border rounded p-2 flex items-center justify-center"
+        required
+      />
       <button
         class="bg-green-500 h-[50px] w-[400px] rounded-full hover:bg-green-600 transition-all ease-out duration-300 cursor-pointer"
       >
