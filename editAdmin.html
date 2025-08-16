@@ -51,6 +51,9 @@
           <option value="Admin">Admin</option>
         </select>
       </div>
+      <div class="flex">
+        <input type="file" id="images" />
+      </div>
 
       <button
         class="bg-yellow-500 h-[50px] text-white w-[300px] rounded hover:bg-yellow-600 duration-200 ease-in"
@@ -70,7 +73,7 @@
         // console.log(data);
 
         const user = data.find((u) => u._id == id);
-        console.log(user);
+        console.log(user.image);
 
         if (user) {
           document.getElementById("name").value = user.name;
@@ -78,6 +81,7 @@
           document.getElementById("phoneNumber").value = user.phoneNumber;
           document.getElementById("password").value = user.password;
           document.getElementById("type").value = user.type;
+          // document.getElementById("images").value = user.image.files[0];
         }
       }
       loadData();
@@ -91,6 +95,19 @@
           const email = document.getElementById("email").value;
           const phoneNumber = document.getElementById("phoneNumber").value;
           const password = document.getElementById("password").value;
+          // check
+          const imageFile = document.getElementById("images").files[0];
+          // FILE CONVERTED TO BASE 64
+          const toBase64 = (file) =>
+            new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = () => resolve(reader.result);
+              reader.onerror = reject;
+            });
+
+          //BASE 64 FILE OF IMAGE
+          let Base64File = imageFile ? await toBase64(imageFile) : "";
 
           try {
             let editData = await fetch("http://localhost:5000/update", {
@@ -104,13 +121,14 @@
                 email,
                 phoneNumber,
                 password,
+                // check
+                image:Base64File,
               }),
             });
             if (editData) {
               alert("data is updated");
-              localStorage.setItem('name:',`${name}`)
+              localStorage.setItem("name:", `${name}`);
               window.location.href = "/adminHome";
-              
             } else {
               alert("data is not updated");
             }

@@ -137,6 +137,8 @@ const server = http.createServer(async (req, res) => {
               email: objectData.email,
               phoneNumber: objectData.phoneNumber,
               password: objectData.password,
+              // check
+              image:objectData.image
             },
           }
         );
