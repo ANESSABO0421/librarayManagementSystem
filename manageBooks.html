@@ -48,14 +48,18 @@
         }">
             ${display.status}
         </span>
-    </p>         
-    <div class="flex gap-5">
+        </p>         
+        <div class="flex gap-5">
         <button class="bg-yellow-300 flex-1 text-yellow-600 mt-5 rounded p-2  cursor-pointer hover:bg-yellow-100 duration-200 ease-out" onclick="goToEdit('${
           display._id
         }')">Edit</button>
-        <button class="bg-red-300 text-red-500 mt-5 flex-1 rounded p-2  cursor-pointer hover:bg-red-100">Delete</button>
-    </div>
-</div>
+<button 
+  class="bg-red-300 text-red-500 mt-5 flex-1 rounded p-2 cursor-pointer hover:bg-red-100 duration-200" 
+  onclick="deleteBook('${display._id}')">
+  Delete
+</button>
+          </div>
+      </div>
             `;
       });
       document.getElementById("main").innerHTML = str;
@@ -66,6 +70,26 @@
     // goto edit page
     function goToEdit(id) {
       window.location.href = `/EditBook?id=${id}`;
+    }
+
+    async function deleteBook(id) {
+      try {
+        const deleteData = await fetch("http://localhost:5000/deleteBook", {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ _id: id }),
+        });
+        if (deleteData) {
+          alert("data is deleted");
+          window.location.reload();
+        } else {
+          alert("data is not deleted");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   </script>
 </html>
