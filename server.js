@@ -9,6 +9,7 @@ const server = http.createServer(async (req, res) => {
   const db = client.db("LibraryManagement");
   const userCollections = db.collection("userCollection");
   const bookCollection = db.collection("bookCollection");
+  const borrowedBooksCollection = db.collection("borrowedBooks");
   const path = url.parse(req.url).pathname;
 
   //routes && jsfile
@@ -138,7 +139,7 @@ const server = http.createServer(async (req, res) => {
               phoneNumber: objectData.phoneNumber,
               password: objectData.password,
               // check
-              image:objectData.image
+              image: objectData.image,
             },
           }
         );
@@ -245,6 +246,61 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(500, { "content-type": "text/plain" });
       res.end(JSON.stringify({ error: error.message }));
     }
+  }
+  ///////////////////BORROW BOOK////////////////////////
+  if (path === "/borrow" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunks) => {
+      body += chunks.toString();
+    });
+
+    req.on("end", async () => {
+      const { rBookId, userId } = JSON.parse(body);
+
+      try {
+        const book = await bookCollection.findOne({
+          _id: new ObjectId(rBookId),
+        });
+        // no book found
+        if (!book) {
+          res.writeHead(500, { "content-type": "application/json" });
+          res.end(JSON.stringify({ success: false, message: "not found" }));
+          return;
+        }
+
+        if (book.status === "Borrowed") {
+          res.writeHead(500, {
+            "content-type": "text/plain",
+          });
+          res.end(
+            JSON.stringify({ success: false, message: "already borrowed" })
+          );
+          return;
+        }
+
+        // if found then update to borrow
+        await bookCollection.updateOne(
+          { _id: new ObjectId(rBookId) },
+          { $set: { status: "Borrowed" } }
+        );
+
+        // insert data to borrowed book
+        await borrowedBooksCollection.insertOne({
+          bookId: new ObjectId(rBookId),
+          userId: new ObjectId(userId),
+          borrowedAt: new Date(),
+          returnDate: null,
+        });
+        // borrowed message
+
+        res.writeHead(200, { "content-type": "application/json" });
+        res.end(JSON.stringify({ success: true, message: "book borrowed" }));
+      } catch (error) {
+        console.error(error);
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ success: false, message: "Server error" }));
+      }
+    });
   }
 });
 
