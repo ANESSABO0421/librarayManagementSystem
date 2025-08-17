@@ -58,6 +58,12 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/handleEditBook.js") {
     res.writeHead(200, { "content-type": "text/js" });
     res.end(fs.readFileSync("./handleEditBook.js"));
+  } else if (path === "/userBorrowedBooks") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./userBorrowedBooks.html"));
+  } else if (path === "/handleBorrowed.js") {
+    res.writeHead(200, { "content-type": "text/js" });
+    res.end(fs.readFileSync("./handleBorrowed.js"));
   }
 
   //api
@@ -247,6 +253,7 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ error: error.message }));
     }
   }
+
   ///////////////////BORROW BOOK////////////////////////
   if (path === "/borrow" && req.method === "POST") {
     let body = "";
@@ -278,6 +285,7 @@ const server = http.createServer(async (req, res) => {
           return;
         }
 
+        // 2 process at same time
         // if found then update to borrow
         await bookCollection.updateOne(
           { _id: new ObjectId(rBookId) },
@@ -288,6 +296,9 @@ const server = http.createServer(async (req, res) => {
         await borrowedBooksCollection.insertOne({
           bookId: new ObjectId(rBookId),
           userId: new ObjectId(userId),
+          title: book.bookTitle,
+          genre: book.genre,
+          author: book.author,
           borrowedAt: new Date(),
           returnDate: null,
         });
@@ -301,6 +312,22 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ success: false, message: "Server error" }));
       }
     });
+  }
+  if (path === "/getBorrowedBook" && req.method === "GET") {
+    try {
+      let displayBorrowed = await borrowedBooksCollection.find().toArray();
+      let stringifyData = JSON.stringify(displayBorrowed);
+
+      if (displayBorrowed) {
+        res.writeHead(200, { "content-type": "application/json" });
+        res.end(stringifyData);
+      } else {
+        window.alert("failed to display the data");
+      }
+    } catch (error) {
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end({ error: error.message });
+    }
   }
 });
 

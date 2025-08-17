@@ -6,37 +6,46 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body class="flex items-center justify-center h-[100vh] bg-[#10172a]">
+  <body
+    class="flex items-center justify-center h-[100vh] bg-gradient-to-br from-[#0f172a] to-[#1e293b]"
+  >
     <form
-      class="flex flex-col items-center justify-center bg-white shadow-2xl h-[400px] w-[400px] rounded-lg gap-5"
+      class="flex flex-col items-center justify-center bg-white shadow-xl h-[400px] w-[400px] rounded-2xl gap-6 p-6"
       id="LoginForm"
     >
-      <h1 class="text-[18px] text-center font-bold">
+      <h1 class="text-xl text-center font-bold text-gray-800">
         Welcome to Library Management System
       </h1>
+
       <div class="flex">
         <input
           type="email"
           id="email"
-          placeholder="enter your email"
-          class="border p-2 rounded flex w-[300px]"
+          placeholder="Enter your email"
+          class="border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none p-3 rounded-lg w-[300px] text-sm"
         />
       </div>
+
       <div class="flex">
         <input
           type="password"
           id="password"
-          placeholder="enter your password"
-          class="border p-2 rounded flex w-[300px]"
+          placeholder="Enter your password"
+          class="border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none p-3 rounded-lg w-[300px] text-sm"
         />
       </div>
+
       <button
-        class="bg-yellow-500 h-[50px] text-white w-[300px] rounded hover:bg-yellow-600 duration-200 ease-in"
+        class="bg-blue-500 h-[50px] text-white w-[300px] rounded-lg font-semibold hover:bg-blue-600 shadow-md transition-all duration-300"
       >
-        Sign up
+        Sign in
       </button>
-      <div class="flex gap-1">
-        Don't have an account?<a href="/Signup" class="text-blue-500">Signup</a>
+
+      <div class="flex gap-1 text-sm text-gray-600">
+        Don’t have an account?
+        <a href="/Signup" class="text-blue-500 font-medium hover:underline"
+          >Signup</a
+        >
       </div>
     </form>
     <script src="./handleLogin.js"></script>

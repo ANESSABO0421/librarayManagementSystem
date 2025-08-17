@@ -11,54 +11,66 @@
   >
     <form
       id="addBookForm"
-      class="h-auto w-[500px] bg-red-500 flex rounded-2xl items-center justify-center flex flex-col gap-5 p-5"
+      class="h-auto w-[500px] bg-white shadow-xl flex flex-col rounded-2xl items-center justify-center gap-6 p-8 text-black"
     >
-      <h1 class="text-3xl">Add book</h1>
+      <h1 class="text-2xl font-bold text-gray-800"> Add Book</h1>
+
       <input
         type="text"
         id="bookId"
-        class="h-[50px] w-[400px] border rounded p-2"
-        placeholder="Book id "
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        placeholder="Book ID"
         required
       />
+
       <input
         type="text"
         id="title"
-        class="h-[50px] w-[400px] border rounded p-2"
-        placeholder="book title"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        placeholder="Book Title"
         required
       />
+
       <input
         type="text"
         id="author"
-        class="h-[50px] w-[400px] border rounded p-2"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Author"
         required
       />
+
       <input
         type="text"
         id="genre"
-        class="h-[50px] w-[400px] border rounded p-2"
-        placeholder="genre"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        placeholder="Genre"
         required
       />
-      <select id="status" class="h-[50px] w-[400px] border rounded p-2" required>
+
+      <select
+        id="status"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-600"
+        required
+      >
+        <option value="" disabled selected>Select status</option>
         <option value="Available" class="text-black">Available</option>
         <option value="Borrowed" class="text-black">Borrowed</option>
       </select>
+
       <input
         type="file"
         id="images"
-        class="h-[50px] w-[400px] border rounded p-2 flex items-center justify-center"
+        class="w-full max-w-[400px] text-sm border border-gray-300 rounded-lg p-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
         required
       />
+
       <button
-        class="bg-green-500 h-[50px] w-[400px] rounded-full hover:bg-green-600 transition-all ease-out duration-300 cursor-pointer"
+        class="bg-green-500 h-[50px] w-full max-w-[400px] rounded-lg text-white font-semibold hover:bg-green-600 shadow-md transition-all duration-300"
       >
-        Add new book
+         Add New Book
       </button>
     </form>
-    <script src="./handleBook.js">
-    </script>
+
+    <script src="./handleBook.js"></script>
   </body>
 </html>
