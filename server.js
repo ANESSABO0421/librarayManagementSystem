@@ -64,6 +64,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/handleBorrowed.js") {
     res.writeHead(200, { "content-type": "text/js" });
     res.end(fs.readFileSync("./handleBorrowed.js"));
+  }else if(path==="/addToCart"){
+    res.writeHead(200,{"content-type":"text/html"})
+    res.end(fs.readFileSync("./addToCart.html"))
   }
 
   //api
@@ -361,7 +364,9 @@ const server = http.createServer(async (req, res) => {
           res.end(JSON.stringify({success:false,message:"server error"}))
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
   }
 });
 
