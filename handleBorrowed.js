@@ -1,15 +1,34 @@
+const userId = localStorage.getItem("userId");
+console.log(userId);
+
 async function DisplayBorrowedBook() {
   const response = await fetch("http://localhost:5000/getBorrowedBook");
   const data = await response.json();
-  console.log(data);
+  const user = data.filter((u) => u.userId == userId);
+  console.log(user);
   let str = "";
   {
-    data.map((books) => {
+    user.map((u) => {
       str += `
-        <div>
-        <p>${books.name}</p>
-        </div>
-        `;
+<div class="max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-3 hover:shadow-xl transition duration-300">
+  <h1 class="text-2xl font-bold text-gray-800">${u.title}</h1>
+  <p class="text-gray-600"><span class="font-semibold">Title:</span> ${
+    u.title
+  }</p>
+  <p class="text-gray-600"><span class="font-semibold">Genre:</span> ${
+    u.genre
+  }</p>
+  <p class="text-gray-600"><span class="font-semibold">Author:</span> ${
+    u.author
+  }</p>
+  <p class="text-gray-600"><span class="font-semibold">Borrowed On:</span> ${
+    u.borrowedAt.toString().split("T")[0]
+  }</p>
+   <p class="text-gray-600"><span class="font-semibold">Returned On:</span> ${
+    u.returnDate
+  }</p>
+</div>
+    `;
     });
   }
   document.getElementById("main").innerHTML += str;
