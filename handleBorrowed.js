@@ -10,7 +10,7 @@ async function DisplayBorrowedBook() {
   {
     user.map((u) => {
       str += `
-<div class="max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-3 hover:shadow-xl transition duration-300">
+  <div class="w-[380px] lg:w-[800px] bg-white shadow-2xl rounded-2xl p-6 flex flex-col gap-3 hover:shadow-xl transition-all duration-300">
   <h1 class="text-2xl font-bold text-gray-800">${u.title}</h1>
   <p class="text-gray-600"><span class="font-semibold">Title:</span> ${
     u.title

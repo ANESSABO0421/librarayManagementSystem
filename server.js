@@ -2,6 +2,7 @@ const fs = require("fs");
 const { MongoClient, ObjectId } = require("mongodb");
 const url = require("url");
 const http = require("http");
+const { stringify } = require("querystring");
 const client = new MongoClient("mongodb://127.0.0.1:27017/");
 const port = 5000;
 
@@ -10,6 +11,7 @@ const server = http.createServer(async (req, res) => {
   const userCollections = db.collection("userCollection");
   const bookCollection = db.collection("bookCollection");
   const borrowedBooksCollection = db.collection("borrowedBooks");
+  const addToCartCollection = db.collection("cartCollection");
   const path = url.parse(req.url).pathname;
 
   //routes && jsfile
@@ -64,9 +66,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/handleBorrowed.js") {
     res.writeHead(200, { "content-type": "text/js" });
     res.end(fs.readFileSync("./handleBorrowed.js"));
-  }else if(path==="/addToCart"){
-    res.writeHead(200,{"content-type":"text/html"})
-    res.end(fs.readFileSync("./addToCart.html"))
+  } else if (path === "/addToCart") {
+    res.writeHead(200, { "content-type": "text/html" });
+    res.end(fs.readFileSync("./addToCart.html"));
   }
 
   //api
@@ -350,23 +352,74 @@ const server = http.createServer(async (req, res) => {
             { $set: { returnDate: new Date() } }
           );
           //UPDATEING THE AVAILABILITY OF BOOK
-          await bookCollection.updateOne({
-            _id: new ObjectId(rBookId),
-          },
-          {$set:{status:"Available"}}
-        );
+          await bookCollection.updateOne(
+            {
+              _id: new ObjectId(rBookId),
+            },
+            { $set: { status: "Available" } }
+          );
 
-        res.writeHead(200,{"content-type":"application/json"})
-        res.end(JSON.stringify({success:true,message:"Book returned"}))
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end(JSON.stringify({ success: true, message: "Book returned" }));
         } catch (error) {
-          console.log(error)
-          res.writeHead(500,{"content-type":"application/json"})
-          res.end(JSON.stringify({success:false,message:"server error"}))
+          console.log(error);
+          res.writeHead(500, { "content-type": "application/json" });
+          res.end(JSON.stringify({ success: false, message: "server error" }));
         }
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
+  }
+
+  /////////////////add to cart/////////////////////////////////////
+  if (path === "/cart" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunks) => (body += chunks.toString()));
+    req.on("end", async () => {
+      const { addBookId, addBookUserId } = JSON.parse(body);
+
+      try {
+        const exist = await addToCartCollection.findOne({
+          BookId: addBookId,
+          UserId: addBookUserId,
+        });
+        // already exist
+        if (exist) {
+          res.writeHead(400, { "content-type": "application/json" });
+          res.end(
+            JSON.stringify({
+              success: false,
+              message: "the book is already exits",
+            })
+          );
+          return;
+        }
+
+        const addToCart = await addToCartCollection.insertOne({
+          BookId: addBookId,
+          UserId: addBookUserId,
+          AddedOn: new Date(),
+        });
+        if (addToCart.insertedId) {
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end(
+            JSON.stringify({
+              success: true,
+              message: "added to cart successfully",
+            })
+          );
+        } else {
+          res.write(400, { "content-type": "application/json" });
+          res.end(
+            JSON.stringify({ success: false, message: "failed to add on cart" })
+          );
+        }
+      } catch (error) {
+        res.writeHead(500, { "content-type": "application/json" });
+        res.end(JSON.stringify({ success: false, message: "server error" }));
+      }
+    });
   }
 });
 
