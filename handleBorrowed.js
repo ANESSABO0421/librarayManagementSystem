@@ -27,6 +27,7 @@ async function DisplayBorrowedBook() {
    <p class="text-gray-600"><span class="font-semibold">Returned On:</span> ${
     u.returnDate
   }</p>
+   <button class="text-gray-600 bg-green-300 rounded-md text-green-800 p-2 hover:bg-green-500 duration-300">Return</button>
 </div>
     `;
     });
