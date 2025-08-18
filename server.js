@@ -329,6 +329,40 @@ const server = http.createServer(async (req, res) => {
       res.end({ error: error.message });
     }
   }
+
+  /////////RETURN BOOK//////////////////////////////////////
+  if (path === "/return" && req.method === "POST") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        //bBook for updating the return date and rBookId for updating the the status of the to available
+        const { bBookId, rBookId } = JSON.parse(body);
+        try {
+          //UPDATE THE RETURN DATE
+          await borrowedBooksCollection.updateOne(
+            { _id: new ObjectId(bBookId) },
+            { $set: { returnDate: new Date() } }
+          );
+          //UPDATEING THE AVAILABILITY OF BOOK
+          await bookCollection.updateOne({
+            _id: new ObjectId(rBookId),
+          },
+          {$set:{status:"Available"}}
+        );
+
+        res.writeHead(200,{"content-type":"application/json"})
+        res.end(JSON.stringify({success:true,message:"Book returned"}))
+        } catch (error) {
+          console.log(error)
+          res.writeHead(500,{"content-type":"application/json"})
+          res.end(JSON.stringify({success:false,message:"server error"}))
+        }
+      });
+    } catch (error) {}
+  }
 });
 
 client

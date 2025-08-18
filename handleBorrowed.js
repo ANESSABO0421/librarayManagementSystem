@@ -25,9 +25,11 @@ async function DisplayBorrowedBook() {
     u.borrowedAt.toString().split("T")[0]
   }</p>
    <p class="text-gray-600"><span class="font-semibold">Returned On:</span> ${
-    u.returnDate
-  }</p>
-   <button class="text-gray-600 bg-green-300 rounded-md text-green-800 p-2 hover:bg-green-500 duration-300">Return</button>
+     u.returnDate
+   }</p>
+   <button class="text-gray-600 bg-green-300 rounded-md text-green-800 p-2 hover:bg-green-500 duration-300" onclick="returnBook('${
+     u._id
+   }','${u.bookId}')">Return</button>
 </div>
     `;
     });
@@ -36,3 +38,29 @@ async function DisplayBorrowedBook() {
 }
 
 DisplayBorrowedBook();
+
+/////////////update return and availability of book///////////////
+
+async function returnBook(bBookId, rBookId) {
+  try {
+    const response = await fetch("http://localhost:5000/return", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ bBookId, rBookId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert("successfully returned the book");
+      location.reload();
+    } else {
+      alert("failed to return the book");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("something went wrong");
+  }
+}
