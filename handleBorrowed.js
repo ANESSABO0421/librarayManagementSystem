@@ -25,11 +25,12 @@ async function DisplayBorrowedBook() {
     u.borrowedAt.toString().split("T")[0]
   }</p>
    <p class="text-gray-600"><span class="font-semibold">Returned On:</span> ${
-     u.returnDate
+     u.returnDate ? u.returnDate.toString().split("T")[0] : "Not Returned"
    }</p>
-   <button class="text-gray-600 bg-green-300 rounded-md text-green-800 p-2 hover:bg-green-500 duration-300" onclick="returnBook('${
+
+   <button class="text-gray-600 bg-green-300 rounded-md text-green-800 p-2 hover:bg-green-500 duration-300 disabled:bg-gray-500 disabled:text-white disabled:cursor-not-allowed" onclick="returnBook('${
      u._id
-   }','${u.bookId}')">Return</button>
+   }','${u.bookId}') " ${u.returnDate ? "disabled" : ""}>Return</button>
 </div>
     `;
     });
