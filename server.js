@@ -411,7 +411,7 @@ const server = http.createServer(async (req, res) => {
           title: book.bookTitle,
           author: book.author,
           genre: book.genre,
-          price:book.price,
+          price: book.price,
           image: book.image,
           year: book.year,
           isbn: book.isbn,
@@ -448,6 +448,41 @@ const server = http.createServer(async (req, res) => {
       } else {
         window.alert("failed to fetch data");
       }
+    } catch (error) {
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ success: false, message: "server error" }));
+    }
+  }
+  // delete data from cart
+  if (path === "/deletecart" && req.method === "DELETE") {
+    try {
+      let body = "";
+      req.on("data", (chunks) => {
+        body += chunks.toString();
+      });
+      req.on("end", async () => {
+        let objectData = JSON.parse(body);
+        let deleteDataCart = await addToCartCollection.deleteOne({
+          _id: new ObjectId(objectData._id),
+        });
+        if (deleteDataCart) {
+          res.writeHead(200, { "content-type": "application/json" });
+          res.end(
+            JSON.stringify({
+              success: true,
+              message: "deleted the data from cart succesfully",
+            })
+          );
+        } else {
+          res.writeHead(400, { "content-type": "application/json" });
+          res.end(
+            JSON.stringify({
+              success: false,
+              message: "failed to delete the data",
+            })
+          );
+        }
+      });
     } catch (error) {
       res.writeHead(500, { "content-type": "application/json" });
       res.end(JSON.stringify({ success: false, message: "server error" }));
