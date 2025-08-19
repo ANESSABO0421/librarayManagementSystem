@@ -225,7 +225,8 @@ const server = http.createServer(async (req, res) => {
               year: objectData.year,
               isbn: objectData.isbn,
               description: objectData.description,
-              image:objectData.image
+              image:objectData.image,
+              price:objectData.price
             },
           }
         );

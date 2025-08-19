@@ -103,6 +103,7 @@ async function loadBook() {
     document.getElementById("year").value = book.year || "";
     document.getElementById("isbn").value = book.isbn || "";
     document.getElementById("description").value = book.description || "";
+    document.getElementById("price").value = book.price || "";
 
     if (book.image) {
       const preview = document.getElementById("previewImage");
@@ -129,6 +130,7 @@ document
     const year = document.getElementById("year").value;
     const isbn = document.getElementById("isbn").value;
     const description = document.getElementById("description").value;
+    const price = document.getElementById("price").value;
 
     const preview = document.getElementById("previewImage");
     const image = preview.src; 
@@ -148,6 +150,7 @@ document
           isbn,
           description,
           image,
+          price
         }),
       });
 

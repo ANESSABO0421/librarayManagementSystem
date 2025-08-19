@@ -10,6 +10,7 @@ document
     const userId = localStorage.getItem("userId");
     const file = document.getElementById("images").files[0];
     const year=document.getElementById("year").value
+    const price=document.getElementById("price").value
     const isbn=document.getElementById("isbn").value
     const description=document.getElementById("description").value
 
@@ -40,6 +41,7 @@ document
           createdBy: userId,
           image: Base64File,
           year,
+          price,
           isbn,
           description
         }),

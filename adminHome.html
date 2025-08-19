@@ -113,7 +113,7 @@
       
       <!-- Book Image -->
       <div class="w-full h-[160px] overflow-hidden rounded-lg">
-        <img src="${b.image}" class="w-full h-full object-cover" />
+        <img src="${b.image}" class="w-full h-full aspect-video object-cover" />
       </div>
       
       <h2 class="text-lg font-bold text-gray-800 text-center">${
@@ -127,6 +127,18 @@
       }</span></p>
       <p class="text-sm text-gray-500"> Genre: <span class="text-gray-700">${
         b.genre
+      }</span></p>
+      <p class="text-sm text-gray-500"> Price: <span class="text-gray-700">${
+        b.price
+      }</span></p>
+      <p class="text-sm text-gray-500"> Year: <span class="text-gray-700">${
+        b.year
+      }</span></p>
+      <p class="text-sm text-gray-500"> Isbn: <span class="text-gray-700">${
+        b.isbn
+      }</span></p>
+      <p class="text-sm text-gray-500"> Description: <span class="text-gray-700">${
+        b.description
       }</span></p>
       
       <span class="rounded-full px-4 py-1 text-sm font-semibold ${

@@ -9,7 +9,7 @@
   <body
     class="bg-[#10172a] text-white flex items-center justify-center flex-col gap-5"
   >
-    <h1 class="text-5xl text-center ">Manage Books</h1>
+    <h1 class="text-5xl text-center">Manage Books</h1>
     <div id="main" class="flex flex-col gap-5"></div>
   </body>
   <script>
@@ -26,27 +26,48 @@
       let str = "";
       user.map((display) => {
         str += `
-    <div class="flex flex-col gap-6 bg-white w-[300px] lg:w-[900px] rounded-2xl shadow-lg p-6 hover:-translate-y-2 duration-300 ease-out">
+<div class="flex flex-col gap-6 bg-white w-[300px] lg:w-[900px] rounded-2xl shadow-xl p-8 border border-gray-100 hover:-translate-y-2 hover:shadow-2xl duration-300 ease-out">
 
+  <!-- Title -->
   <div class="flex items-center justify-center text-gray-900 text-3xl font-extrabold tracking-wide">
     ${display.bookTitle}
   </div>
 
-  <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
+  <div class="flex flex-col lg:flex-row lg:justify-between gap-8">
 
+    <!-- Book Image -->
     <div class="flex justify-center items-center lg:w-1/2">
       <img src="${display.image}" 
-           class="aspect-video lg:w-[450px] lg:h-[220px] object-cover rounded-lg shadow-md border border-gray-200 flex items-center justify-center" />
+           class="aspect-video lg:w-[450px] lg:h-[250px] object-cover rounded-xl shadow-md border border-gray-200" />
     </div>
 
-    <div class="flex flex-col gap-2 w-1/2 text-gray-700 text-base leading-relaxed">
-      <p><strong class="text-[18px]">Book ID:</strong> ${display.bookId}</p>    
-      <p><strong class="text-[18px]">Title:</strong> ${display.bookTitle}</p> 
-      <p><strong class="text-[18px]">Author:</strong> ${display.author}</p>         
-      <p><strong class="text-[18px]">Genre:</strong> ${display.genre}</p>         
+    <!-- Book Details -->
+    <div class="flex flex-col gap-3 w-1/2 text-gray-700 text-base leading-relaxed">
+      <p><strong class="text-gray-900">Book ID:</strong> ${
+        display.bookId
+      }</p>    
+      <p><strong class="text-gray-900">Title:</strong> ${display.bookTitle}</p> 
+      <p><strong class="text-gray-900">Author:</strong> ${
+        display.author
+      }</p>         
+      <p><strong class="text-gray-900">Genre:</strong> ${
+        display.genre
+      }</p>         
+      <p><strong class="text-gray-900">Price:</strong> <span class="font-semibold text-gray-800">₹${
+        display.price
+      }</span></p>         
+      <p><strong class="text-gray-900">Year:</strong> ${
+        display.year
+      }</p>         
+      <p><strong class="text-gray-900">ISBN:</strong> ${
+        display.isbn
+      }</p>         
+      <p><strong class="text-gray-900">Description:</strong> <span class="text-gray-600">${
+        display.description
+      }</span></p>         
 
       <p class="flex items-center">
-        <strong class="text-[18px]">Status:</strong>
+        <strong class="text-gray-900">Status:</strong>
         <span class="${
           display.status === "Borrowed"
             ? "bg-red-100 text-red-700 px-4 py-1 rounded-full ml-3 font-medium shadow-sm"
@@ -58,17 +79,19 @@
     </div>
   </div>
 
-  <div class="flex gap-5 mt-4">
-    <button class="bg-yellow-300 flex-1 text-yellow-700 font-semibold rounded-lg py-2 cursor-pointer hover:bg-yellow-200 transition duration-200 ease-out shadow-sm"
+  <!-- Action Buttons -->
+  <div class="flex gap-5 mt-6">
+    <button class="flex-1 bg-yellow-400 text-yellow-900 font-semibold rounded-lg py-2 shadow-md hover:bg-yellow-300 hover:shadow-lg transition duration-200 ease-out"
       onclick="goToEdit('${display._id}')">
-      Edit
+       Edit
     </button>
-    <button class="bg-red-300 flex-1 text-red-600 font-semibold rounded-lg py-2 cursor-pointer hover:bg-red-200 transition duration-200 ease-out shadow-sm"
+    <button class="flex-1 bg-red-500 text-white font-semibold rounded-lg py-2 shadow-md hover:bg-red-600 hover:shadow-lg transition duration-200 ease-out"
       onclick="deleteBook('${display._id}')">
-      Delete
+       Delete
     </button>
   </div>
 </div>
+
 
             `;
       });
