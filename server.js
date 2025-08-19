@@ -225,8 +225,8 @@ const server = http.createServer(async (req, res) => {
               year: objectData.year,
               isbn: objectData.isbn,
               description: objectData.description,
-              image:objectData.image,
-              price:objectData.price
+              image: objectData.image,
+              price: objectData.price,
             },
           }
         );
@@ -400,11 +400,20 @@ const server = http.createServer(async (req, res) => {
           );
           return;
         }
+        const book = await bookCollection.findOne({
+          _id: new ObjectId(addBookId),
+        });
 
         const addToCart = await addToCartCollection.insertOne({
           BookId: addBookId,
           UserId: addBookUserId,
           AddedOn: new Date(),
+          author: book.author,
+          genre: book.genre,
+          image: book.image,
+          year: book.year,
+          isbn: book.isbn,
+          description: book.description,
         });
         if (addToCart.insertedId) {
           res.writeHead(200, { "content-type": "application/json" });
