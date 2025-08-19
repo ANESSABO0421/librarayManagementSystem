@@ -108,9 +108,7 @@
   <p class="text-sm text-gray-500">Genre: <span class="font-medium text-gray-700">${
     b.genre
   }</span></p>
-  <p class="text-sm text-gray-500">Price: <span class="font-semibold text-gray-800">₹${
-    b.price
-  }</span></p>
+  
   <p class="text-sm text-gray-500">Year: <span class="font-medium text-gray-700">${
     b.year
   }</span></p>
@@ -119,6 +117,9 @@
   }</span></p>
   <p class="text-sm text-gray-500 line-clamp-2">Description: <span class="text-gray-700">${
     b.description
+  }</span></p>
+  <p class="text-sm text-gray-500">Price: <span class="font-semibold text-green-500 text-2xl">₹${
+    b.price 
   }</span></p>
 
   <!-- Status -->
@@ -139,12 +140,16 @@
     ${b.status === "Borrowed" ? "Borrowed" : "Borrow"}
   </button>
 
-  <button 
-    class="w-full bg-orange-500 text-white font-semibold px-4 py-2 rounded-xl hover:bg-orange-600 transition-all duration-200" onclick="addCart('${
-      b._id
-    }','${userId}')">
-    Add to Cart
-  </button>
+<button 
+  onclick="this.disabled = true; this.textContent='Added to Cart'; addCart('${
+    b._id
+  }','${userId}')"
+  class="w-full bg-orange-500 text-white font-semibold px-4 py-2 rounded-xl 
+         hover:bg-orange-600 transition-all duration-200 
+         disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
+>
+  Add to Cart
+</button>
 </div>
 
           `;
