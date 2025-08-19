@@ -408,8 +408,10 @@ const server = http.createServer(async (req, res) => {
           BookId: addBookId,
           UserId: addBookUserId,
           AddedOn: new Date(),
+          title: book.bookTitle,
           author: book.author,
           genre: book.genre,
+          price:book.price,
           image: book.image,
           year: book.year,
           isbn: book.isbn,
@@ -434,6 +436,22 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ success: false, message: "server error" }));
       }
     });
+  }
+  // get add to cart items
+  if (path === "/getcart" && req.method === "GET") {
+    try {
+      let getCartItem = await addToCartCollection.find().toArray();
+      let stringData = JSON.stringify(getCartItem);
+      if (getCartItem) {
+        res.writeHead(200, { "content-type": "application/json" });
+        res.end(stringData);
+      } else {
+        window.alert("failed to fetch data");
+      }
+    } catch (error) {
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ success: false, message: "server error" }));
+    }
   }
 });
 

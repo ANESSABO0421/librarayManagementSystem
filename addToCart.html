@@ -6,7 +6,81 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
-    addToCart
+  <body class="bg-[#E0FBFC]">
+    <div id="cart-div">
+      <h1 class="text-2xl lg:text-5xl mb-5 font-bold text-center">Your Cart</h1>
+
+      <div id="cart-items" class="flex flex-col gap-5 p-10"></div>
+    </div>
   </body>
+  <script>
+    let localUserId = localStorage.getItem("userId");
+
+    async function getData(params) {
+      try {
+        let response = await fetch("http://localhost:5000/getcart");
+        let data = await response.json();
+        // console.log(data)
+        const userCartData = data.filter((item) => item.UserId == localUserId);
+        console.log(userCartData);
+        let str = "";
+        {
+          userCartData.map((cart) => {
+            str += `
+<div class="bg-white rounded-2xl shadow-md p-4 flex flex-col lg:flex-row gap-6 hover:shadow-lg hover:-translate-y-1 transition">
+  
+  <!-- Image -->
+  <div class="w-32 h-40 flex-shrink-0 mx-auto lg:mx-0">
+    <img src="${cart.image}" alt="${cart.title}" 
+      class="w-full h-full object-cover rounded-xl shadow" />
+  </div>
+
+  <!-- Info Section -->
+  <div class="flex flex-col justify-between flex-grow">
+    
+    <!-- Top Info -->
+    <div>
+      <h2 class="text-lg font-bold text-gray-900">${cart.title}</h2>
+      <p class="text-sm text-gray-600">by ${cart.author}</p>
+      
+      <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-sm text-gray-700 mt-2">
+        <p><span class="font-semibold">Genre:</span> ${cart.genre}</p>
+        <p><span class="font-semibold">Year:</span> ${cart.year}</p>
+        <p><span class="font-semibold">ISBN:</span> ${cart.isbn}</p>
+        <p><span class="font-semibold">Price:</span> <span class="text-green-600 font-bold">₹${
+          cart.price
+        }</span></p>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <p class="text-sm text-gray-500 mt-2 line-clamp-2">${cart.description}</p>
+
+    <!-- Bottom Info -->
+    <div class="flex justify-between items-center mt-4">
+      <p class="text-md text-gray-600"> Added On: ${
+        cart.AddedOn.toString().split("T")[0]
+      }</p>
+
+      <div class="flex gap-3">
+        <button onclick="buyNow('${cart._id}')" 
+          class="bg-green-500 text-white px-4 py-1.5 rounded-xl shadow hover:bg-green-600 transition">
+          Buy Now
+        </button>
+        <button onclick="removeFromCart('${cart._id}')" 
+          class="bg-red-500 text-white px-4 py-1.5 rounded-xl shadow hover:bg-red-600 transition">
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+          `;
+          });
+        }
+        document.getElementById("cart-items").innerHTML = str;
+      } catch (error) {}
+    }
+    getData();
+  </script>
 </html>
