@@ -222,6 +222,10 @@ const server = http.createServer(async (req, res) => {
               author: objectData.author,
               genre: objectData.genre,
               status: objectData.status,
+              year: objectData.year,
+              isbn: objectData.isbn,
+              description: objectData.description,
+              image:objectData.image
             },
           }
         );

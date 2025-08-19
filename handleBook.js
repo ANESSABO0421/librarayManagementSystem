@@ -8,18 +8,21 @@ document
     const genre = document.getElementById("genre").value;
     const status = document.getElementById("status").value;
     const userId = localStorage.getItem("userId");
-    const file=document.getElementById("images").files[0]
-    
-    // convert image to base64
-    const toBase64=(file)=>
-      new Promise((resolve,reject)=>{
-        const reader=new FileReader();
-        reader.readAsDataURL(file)
-        reader.onload=()=>resolve(reader.result)
-        reader.onerror=reject
-      })
+    const file = document.getElementById("images").files[0];
+    const year=document.getElementById("year").value
+    const isbn=document.getElementById("isbn").value
+    const description=document.getElementById("description").value
 
-      let Base64File=file?await toBase64(file):""
+    // convert image to base64
+    const toBase64 = (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+      });
+
+    let Base64File = file ? await toBase64(file) : "";
 
     console.log(bookId, bookTitle, author, genre, status);
     try {
@@ -35,7 +38,10 @@ document
           genre,
           status,
           createdBy: userId,
-          image:Base64File
+          image: Base64File,
+          year,
+          isbn,
+          description
         }),
       });
       if (addBook) {
@@ -48,3 +54,17 @@ document
       console.log(error);
     }
   });
+
+
+
+  // image preview
+document.getElementById("images").addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  const preview = document.getElementById("previewImage");
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove("hidden");
+  } else {
+    preview.classList.add("hidden");
+  }
+});

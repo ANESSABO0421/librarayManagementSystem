@@ -3,71 +3,109 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Add Book</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body
-    class="bg-[#10172a] text-white h-[100vh] flex items-center justify-center"
-  >
+  <body class="bg-[#10172a] text-white min-h-screen flex justify-center py-10">
     <form
       id="addBookForm"
       class="h-auto w-[380px] lg:w-[500px] bg-white shadow-xl flex flex-col rounded-2xl items-center justify-center gap-6 p-8 text-black"
     >
-      <h1 class="text-2xl font-bold text-gray-800"> Add Book</h1>
+      <h1 class="text-2xl font-bold text-gray-800">Add Book</h1>
 
+      <!-- Book ID -->
       <input
         type="text"
         id="bookId"
-        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Book ID"
         required
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
 
+      <!-- Title -->
       <input
         type="text"
         id="title"
-        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Book Title"
         required
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
 
+      <!-- Author -->
       <input
         type="text"
         id="author"
-        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Author"
         required
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
 
+      <!-- Genre -->
       <input
         type="text"
         id="genre"
-        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
         placeholder="Genre"
         required
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
       />
 
+      <!-- Status -->
       <select
         id="status"
-        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-600"
         required
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none text-gray-600"
       >
         <option value="" disabled selected>Select status</option>
         <option value="Available" class="text-black">Available</option>
         <option value="Borrowed" class="text-black">Borrowed</option>
       </select>
 
+      <!-- Publication Year -->
+      <input
+        type="number"
+        id="year"
+        placeholder="Publication Year"
+        min="1500"
+        max="2099"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      />
+
+      <!-- ISBN -->
+      <input
+        type="text"
+        id="isbn"
+        placeholder="ISBN (optional)"
+        class="h-[50px] w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      />
+
+      <!-- Description -->
+      <textarea
+        id="description"
+        placeholder="Book Description"
+        rows="3"
+        class="w-full max-w-[400px] border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+      ></textarea>
+
+      <!-- Upload Image -->
       <input
         type="file"
         id="images"
-        class="w-full max-w-[400px] text-sm border border-gray-300 rounded-lg p-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
         required
+        class="w-full max-w-[400px] text-sm border border-gray-300 rounded-lg p-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
       />
 
+      <!-- Preview uploaded image -->
+      <img
+        id="previewImage"
+        class="hidden w-[150px] h-[200px] object-cover rounded-md shadow-md"
+        alt="Book Preview"
+      />
+
+      <!-- Submit -->
       <button
         class="bg-green-500 h-[50px] w-full max-w-[400px] rounded-lg text-white font-semibold hover:bg-green-600 shadow-md transition-all duration-300"
       >
-         Add New Book
+        Add New Book
       </button>
     </form>
 
