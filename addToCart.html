@@ -82,5 +82,25 @@
       } catch (error) {}
     }
     getData();
+
+    async function removeFromCart(deleteId) {
+      try {
+        const deleteData = await fetch("http://localhost:5000/deletecart", {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ _id: deleteId }),
+        });
+        if (deleteData) {
+          window.location.reload()
+          alert("data is deleted successfully");
+        } else {
+          alert("failed to delete data");
+        }
+      } catch (error) {
+        console.error("there is some error:", error);
+      }
+    }
   </script>
 </html>
