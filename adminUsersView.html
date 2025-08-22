@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="bg-[#10172a] text-white">
+    <div id="displayUser">
+      <div id="main"></div>
+    </div>
+  </body>
+  <script>
+    const localId = localStorage.getItem("userId");
+    console.log(localId);
+    async function viewAdminUser() {
+      try {
+        const getUser = await fetch("http://localhost:5000/getUser");
+        const data = await getUser.json();
+        // console.log(data);
+        const filteredUser = data.filter((u) => u._id != localId);
+        console.log(filteredUser);
+        let str = "";
+        filteredUser.map((u) => {
+          str += `
+            <div>
+                <p>${u.name}</p>
+            </div>    
+            
+            
+            `;
+        });
+        document.getElementById("main").innerHTML += str;
+      } catch (error) {}
+    }
+
+    viewAdminUser();
+  </script>
+</html>

@@ -69,6 +69,9 @@ const server = http.createServer(async (req, res) => {
   } else if (path === "/addToCart") {
     res.writeHead(200, { "content-type": "text/html" });
     res.end(fs.readFileSync("./addToCart.html"));
+  } else if(path==="/adminUsersView"){
+    res.writeHead(200,{"content-type":"text/html"})
+    res.end(fs.readFileSync("./adminUsersView.html"))
   }
 
   //api

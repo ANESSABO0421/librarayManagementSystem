@@ -44,7 +44,9 @@
               </li></a
             >
 
-            <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
+            <!-- <a href="/adminUsersView">
+              <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Users</li>
+            </a> -->
             <a href="/manageBooks">
               <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
                 Manage Books
@@ -113,7 +115,9 @@
       
       <!-- Book Image -->
       <div class="w-full h-[160px] overflow-hidden rounded-lg">
-        <img src="${b.image}" class="w-full h-full aspect-video object-contain" />
+        <img src="${
+          b.image
+        }" class="w-full h-full aspect-video object-contain" />
       </div>
       
       <h2 class="text-lg font-bold text-gray-800 text-center">${
@@ -152,7 +156,7 @@
   `;
           });
         }
-        document.getElementById("booksDisplay").innerHTML = str ;
+        document.getElementById("booksDisplay").innerHTML = str;
       } catch (error) {}
     }
     fetchData();
